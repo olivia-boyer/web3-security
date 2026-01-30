@@ -45,8 +45,10 @@ Implement a proof-of-work puzzle solver (like Bitcoin mining) and measure how di
 ## Deliverables
 
 For each part, you will submit:
-1. **Code**: Completed implementations (autograded)
+1. **Code**: Completed implementations of Part1.java, Part2.java, and Part3.java as well as your Driver code to complete the experiments.
 2. **Experimental results**: Completed data tables
+
+Submit to Gradescope.
 
 # Part 1: Message Digests
 
