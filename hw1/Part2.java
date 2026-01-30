@@ -12,7 +12,7 @@ public class Part2 {
     }
 
     /** TODO: return true iff c.c equals SHA256(c.r || message). */
-    public static boolean verify(Commitment c, byte[] message) {
+    public static boolean verify(Commitment c, byte[] message, int hashFunction) {
         // TODO
         throw new UnsupportedOperationException("TODO");
     }
