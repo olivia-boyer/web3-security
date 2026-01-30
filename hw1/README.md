@@ -259,7 +259,7 @@ Test how long it takes to solve puzzles of different difficulties.
 
 **Puzzle friendliness results**: Create a table:
 
-| Difficulty (d) | Target Set Size |Y| | Expected Attempts (2^d) | Actual Attempts | Time (ms) | Found? |
+| Difficulty (d) | Target Set Size \|Y\| | Expected Attempts (2^d) | Actual Attempts | Time (ms) | Found? |
 |----------------|---------------------|------------------------|-----------------|-----------|--------|
 | 12             | 2^244               | 4,096                  |                 |           |        |
 | 16             | 2^240               | 65,536                 |                 |           |        |
