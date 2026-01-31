@@ -1,4 +1,4 @@
-# Homework 1: Cryptographic Hash Functions
+# Homework 1: Hash Functions
 
 ## Overview
 
@@ -267,7 +267,4 @@ Test how long it takes to solve puzzles of different difficulties.
 
 
 ---
-
-# Part 4: Digital Signatures
-
 
