@@ -15,10 +15,10 @@ public class Part3 {
      * @param difficulty number of leading zero bits required (defines |Y| = 2^(256-difficulty))
      * @return a nonce x that solves the puzzle, or -1 if not found within reasonable attempts
      */
-    public static long solvePuzzle(byte[] puzzleID, int difficulty) throws Exception {
+    public static long solvePuzzle(byte[] puzzleID, int difficulty) throws NoSuchAlgorithmException {
         // TODO
         long x = 0;
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000000; i++) {
             //generate x
             if (verifyPuzzle(puzzleID, x, difficulty)){
                 return x;
@@ -26,7 +26,7 @@ public class Part3 {
             x++;
         }
             return -1;
-       // throw new UnsupportedOperationException("TODO");
+       // throw new UnsupportedOperationException();
     }
     
     /**
@@ -38,23 +38,33 @@ public class Part3 {
      * @return true if H(puzzleID || x) has at least 'difficulty' leading zeros
      */
     public static boolean verifyPuzzle(byte[] puzzleID, long x, int difficulty) 
-            throws Exception {
-        // TODO
+            throws NoSuchAlgorithmException {
+   
         Long xlong = x;
         String xstring = xlong.toString();
         byte[] concated = Utils.concat(puzzleID, xstring.getBytes());
-        Part1.computeDigest(concated, 1);
+        concated = Part1.computeDigest(concated, 1);
+        
+       //byte[] concated = {0, (byte)0, 0, 0, 0};
         int bytenum = difficulty / 8;
         int i;
         for (i = 0; i < bytenum; i++){
             if (concated[i] != 0) {
                 return false;
-            }
+            } 
         }
         bytenum = difficulty % 8;
-        return  concated[i] < (int)(Math.pow(2, bytenum));
+        int fin = concated[i];
+        byte check = -128;
+        for (i = 0; i < bytenum; i++) {
+            if ((fin & check) != 0) {
+                return false;
+            }
+                fin = fin << 1;
+        }
+        return true;
 
         
-        //throw new UnsupportedOperationException("TODO");
+        //throw new UnsupportedOperationException();
     }
 }

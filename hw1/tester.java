@@ -12,6 +12,9 @@ public static void main(String[] args){
     
         Commitment comt = Part2.commit(message, 1);
     System.out.println(Part2.verify(comt, message, 1));
+
+    System.out.println(Part3.solvePuzzle(message, 100));
+    System.out.println(Part3.verifyPuzzle(message, 0, 0));
     }
       catch (NoSuchAlgorithmException e) {
             System.out.print("No Such Algorithm");
