@@ -17,7 +17,16 @@ public class Part3 {
      */
     public static long solvePuzzle(byte[] puzzleID, int difficulty) throws Exception {
         // TODO
-        throw new UnsupportedOperationException("TODO");
+        long x = 0;
+        for (int i = 0; i < 1000000; i++) {
+            //generate x
+            if (verifyPuzzle(puzzleID, x, difficulty)){
+                return x;
+            }
+            x++;
+        }
+            return -1;
+       // throw new UnsupportedOperationException("TODO");
     }
     
     /**
@@ -31,6 +40,21 @@ public class Part3 {
     public static boolean verifyPuzzle(byte[] puzzleID, long x, int difficulty) 
             throws Exception {
         // TODO
-        throw new UnsupportedOperationException("TODO");
+        Long xlong = x;
+        String xstring = xlong.toString();
+        byte[] concated = Utils.concat(puzzleID, xstring.getBytes());
+        Part1.computeDigest(concated, 1);
+        int bytenum = difficulty / 8;
+        int i;
+        for (i = 0; i < bytenum; i++){
+            if (concated[i] != 0) {
+                return false;
+            }
+        }
+        bytenum = difficulty % 8;
+        return  concated[i] < (int)(Math.pow(2, bytenum));
+
+        
+        //throw new UnsupportedOperationException("TODO");
     }
 }

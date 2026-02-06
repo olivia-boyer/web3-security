@@ -1,6 +1,7 @@
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+
 public class Part2 {
 
     // -----------------------------
@@ -8,14 +9,22 @@ public class Part2 {
     // -----------------------------
     /** TODO: return (c, r) where r is random 32 bytes and c = SHA256(r || message). */
     public static Commitment commit(byte[] message, int hashFunction) throws NoSuchAlgorithmException {
+        
+        byte[] r = Utils.genSalt();
+        byte[] concated = Utils.concat(r, message);
+        byte[] c = Part1.computeDigest(concated, hashFunction);
+        Commitment retVal = new Commitment(r,c);
+        return retVal;
         // TODO 
         //throw new UnsupportedOperationException("TODO");
     }
 
     /** TODO: return true iff c.c equals SHA256(c.r || message). */
     public static boolean verify(Commitment c, byte[] message, int hashFunction) throws NoSuchAlgorithmException {
-        // TODO
-        //throw new UnsupportedOperationException("TODO");
+        byte[] rVal = c.getSalt();
+        byte[] concated = Utils.concat(rVal, message);
+        byte[] test = Part1.computeDigest(concated, hashFunction);
+        return (c.c).equals(test);
     }
 
 }

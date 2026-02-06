@@ -1,6 +1,7 @@
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
+//import Utils.java;
 
 public class Part1 {
     // -----------------------------
@@ -19,9 +20,17 @@ public class Part1 {
      * @return the message digest as a byte array
      */
     public static byte[] computeDigest(byte[] message, int hashFunction)  throws NoSuchAlgorithmException {
-        
-        // TODO  
-        throw new UnsupportedOperationException("TODO");
+       if (hashFunction == 2){
+        return Utils.hashTruncated(message, 8);
+       } 
+       if (hashFunction == 1) {
+        return Utils.sha256(message);
+       }
+       if (hashFunction == 3) {
+        return Utils.hashTruncated(message, 16);
+       }
+       System.out.print("Error: int hashFunction is out of range 1-3");
+       return null;
     }
     
     /**
@@ -34,9 +43,9 @@ public class Part1 {
      */
     public static boolean verifyIntegrity(byte[] message, byte[] expectedDigest, 
                                           int hashFunction) throws NoSuchAlgorithmException {
-
-        // TODO
-        throw new UnsupportedOperationException("TODO");
+        byte[] hashedMsg = computeDigest(message, hashFunction);
+        return hashedMsg.equals(expectedDigest);
     }
     
 }
+//build tester for 1b
