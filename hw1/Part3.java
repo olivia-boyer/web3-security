@@ -40,14 +40,18 @@ public class Part3 {
     public static boolean verifyPuzzle(byte[] puzzleID, long x, int difficulty) 
             throws NoSuchAlgorithmException {
    
-        Long xlong = x;
-        String xstring = xlong.toString();
-        byte[] concated = Utils.concat(puzzleID, xstring.getBytes());
+        byte[] bytex = new byte[8];
+        int i;
+        int mask = 255;
+        for (i = 7; i >= 0; i--) {
+            bytex[i] = (byte) (x & mask);
+            x = x >> 8;
+        }
+        byte[] concated = Utils.concat(puzzleID, bytex);
         concated = Part1.computeDigest(concated, 1);
         
        //byte[] concated = {0, (byte)0, 0, 0, 0};
-        int bytenum = difficulty / 8;
-        int i;
+        int bytenum = (difficulty / 8);
         for (i = 0; i < bytenum; i++){
             if (concated[i] != 0) {
                 return false;
