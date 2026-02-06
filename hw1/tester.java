@@ -1,0 +1,17 @@
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.HashMap;
+
+public class tester{
+
+public static void main(String[] args){
+    byte[] message = Utils.genSalt();
+    try {
+    byte[] hash1 = Part1.computeDigest(message, 1);
+    System.out.println(Part1.verifyIntegrity(message, hash1, 1));
+    }
+          catch (NoSuchAlgorithmException e) {
+            System.out.print("No Such Algorithm");
+       }
+}
+}

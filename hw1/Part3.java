@@ -18,7 +18,7 @@ public class Part3 {
     public static long solvePuzzle(byte[] puzzleID, int difficulty) throws Exception {
         // TODO
         long x = 0;
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < 1000; i++) {
             //generate x
             if (verifyPuzzle(puzzleID, x, difficulty)){
                 return x;

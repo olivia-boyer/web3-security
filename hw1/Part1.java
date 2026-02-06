@@ -29,8 +29,11 @@ public class Part1 {
        if (hashFunction == 3) {
         return Utils.hashTruncated(message, 16);
        }
+       
+
        System.out.print("Error: int hashFunction is out of range 1-3");
        return null;
+       
     }
     
     /**
@@ -44,7 +47,12 @@ public class Part1 {
     public static boolean verifyIntegrity(byte[] message, byte[] expectedDigest, 
                                           int hashFunction) throws NoSuchAlgorithmException {
         byte[] hashedMsg = computeDigest(message, hashFunction);
-        return hashedMsg.equals(expectedDigest);
+        for (int i = 0; i < hashedMsg.length; i++){
+            if (hashedMsg[i] != expectedDigest[i]){
+                return false;
+            }
+        }
+        return true;
     }
     
 }
