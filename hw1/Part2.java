@@ -24,7 +24,7 @@ public class Part2 {
         byte[] rVal = c.getSalt();
         byte[] concated = Utils.concat(rVal, message);
         byte[] test = Part1.computeDigest(concated, hashFunction);
-        return (c.c).equals(test);
+        return Part1.verifyIntegrity(c.c, test, 1);
     }
 
 }
