@@ -9,9 +9,13 @@ public static void main(String[] args){
     try {
     byte[] hash1 = Part1.computeDigest(message, 1);
     System.out.println(Part1.verifyIntegrity(message, hash1, 1));
+    
+        Commitment comt = Part2.commit(message, 1);
+    System.out.println(Part2.verify(comt, message, 1));
     }
-          catch (NoSuchAlgorithmException e) {
+      catch (NoSuchAlgorithmException e) {
             System.out.print("No Such Algorithm");
        }
+
 }
 }

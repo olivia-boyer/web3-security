@@ -13,7 +13,7 @@ public class Part2 {
         byte[] r = Utils.genSalt();
         byte[] concated = Utils.concat(r, message);
         byte[] c = Part1.computeDigest(concated, hashFunction);
-        Commitment retVal = new Commitment(r,c);
+        Commitment retVal = new Commitment(c,r);
         return retVal;
         // TODO 
         //throw new UnsupportedOperationException("TODO");
@@ -23,8 +23,7 @@ public class Part2 {
     public static boolean verify(Commitment c, byte[] message, int hashFunction) throws NoSuchAlgorithmException {
         byte[] rVal = c.getSalt();
         byte[] concated = Utils.concat(rVal, message);
-        byte[] test = Part1.computeDigest(concated, hashFunction);
-        return Part1.verifyIntegrity(c.c, test, 1);
+        return Part1.verifyIntegrity(concated, c.getCom(), hashFunction);
     }
 
 }
