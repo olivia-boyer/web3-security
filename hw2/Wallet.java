@@ -14,19 +14,33 @@ public class Wallet {
     }
 
     public Keys.PublicKey getPublicKey() {
-        return null;
+        return this.publicKey;
     }
 
     public Keys.Key[] generateKeys(int keySize) {
-        return null; 
+        /*p = genrandom prime
+        q = gen random prime
+        n = p*q
+        phin = (p-1)(q-1)
+        bigint e = 65537
+        d = e.modInverse(phin)
+        keyset = keys.key[2]
+        keyset[0] = privateKey(d, n)
+        keyset[1] = publicKey(e, n)
+        return keyset
+        */
     }
 
     public byte[] sign(byte[] message) {
-        return null; 
+       /* h = hash(m)
+       sig = h^(sk.d) mod sk.n
+        return sig; 
+        */
     }
 
     public static boolean verify(Keys.PublicKey pk, byte[] message, byte[] signature) {
-        return false;    
+       /* h = hash(m)
+       
     }
 
 }
