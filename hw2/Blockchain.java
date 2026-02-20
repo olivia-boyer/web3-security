@@ -16,7 +16,8 @@ public class Blockchain {
      * Creates an empty blockchain.
      */
     public Blockchain() {
-        // TODO
+        this.head = new Block(null, null);
+        this.size = 0;
     }
 
     /**
@@ -28,7 +29,14 @@ public class Blockchain {
      * @param transactions the list of transactions to include in the new block
      */
     public void append(List<Transaction> transactions) {
-        // TODO
+        Block newBlock;
+        if (this.head != null) {
+            newBlock = new Block(transactions, this.head);
+        } else {
+            newBlock = new Block(transactions, null);
+        }
+        this.head = newBlock;
+        this.size += 1;
     }
 
     /**
@@ -37,8 +45,7 @@ public class Blockchain {
      * @return the head block
      */
     public Block getHead() {
-        // TODO
-        return null;
+        return this.head;
     }
 
     /**
@@ -47,8 +54,7 @@ public class Blockchain {
      * @return the chain length
      */
     public int getSize() {
-        // TODO
-        return 0;
+        return this.size;
     }
 
     /**
@@ -57,8 +63,14 @@ public class Blockchain {
      * @return true if the entire chain is intact, false if any block
      *         has been tampered with
      */
+    //TODO: fix
     public boolean validateChain() {
-        // TODO
-        return false;
+        String currentHash = this.head.getHashPointer().calculateHash();
+        String expectedHash = this.head.getHashPointer().getHash();
+        if (!currentHash.equals(expectedHash)) {
+            return false;
+        }
+
+        return true;
     }
 }

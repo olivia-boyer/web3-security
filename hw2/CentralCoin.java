@@ -22,29 +22,39 @@ public class CentralCoin {
     private final List<Transaction> pendingTxs;
 
     public CentralCoin()  {
-        theMint = null;    
-        blockchain = null;
-        utxoPool = null;
-        pendingTxs = null;
+        theMint = new Wallet(2048);    
+        blockchain = new Blockchain();
+        utxoPool = new UTXOPool();
+        pendingTxs = new ArrayList<>();
     }
 
     public Transaction createCoins(double amount, Keys.PublicKey recipient) throws Exception {
-        
-        return null;
+        Transaction minting = new Transaction();
+        minting.addOutput(amount, recipient);
+        minting.computeHash();
+        return minting;
     }
 
     
     public boolean processTransaction(Transaction tx) throws Exception {
+
+        //verify transactions against utxo pool + pending transactions
+        //plus if transactio itself makes sense math wise
+    
         return false; 
     }
 
     
     public Block mineBlock()  {
+        //verify block
+        //add block to blockchain
+        //rebuild utxo pool after mining by updating used inputs and new outputs
         return null;
         
     }
 
     public void rebuildUTXOPool() {
+        //update utxo pool after block is mined
         
     }
 

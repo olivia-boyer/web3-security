@@ -2,15 +2,21 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.nio.ByteBuffer;
 
 public class Wallet {
+
+     private static final SecureRandom RNG = new SecureRandom();
 
     private final Keys.PrivateKey privateKey;
     private final Keys.PublicKey  publicKey;
 
+        /** SHA-256 using Java standard library. */
+
     public Wallet(int keySize) {
-        privateKey = null;
-        publicKey = null;
+        Keys.Key[] keyset = generateKeys(keySize);
+        privateKey = (Keys.PrivateKey) keyset[0];
+        publicKey = (Keys.PublicKey) keyset[1];
     }
 
     public Keys.PublicKey getPublicKey() {
@@ -18,29 +24,33 @@ public class Wallet {
     }
 
     public Keys.Key[] generateKeys(int keySize) {
-        /*p = genrandom prime
-        q = gen random prime
-        n = p*q
-        phin = (p-1)(q-1)
-        bigint e = 65537
-        d = e.modInverse(phin)
-        keyset = keys.key[2]
-        keyset[0] = privateKey(d, n)
-        keyset[1] = publicKey(e, n)
-        return keyset
-        */
+
+        BigInteger p = new BigInteger(keySize,10,RNG);
+        BigInteger q = new BigInteger(keySize,10,RNG); 
+        BigInteger lilP = p.subtract(BigInteger.ONE);
+        BigInteger lilQ = q.subtract(BigInteger.ONE);
+        BigInteger n = p.multiply(q);
+        BigInteger phin = (lilP).multiply(lilQ);
+        BigInteger e = new BigInteger("65537");
+        BigInteger d = e.modInverse(phin);
+        Keys.Key[] keyset = new Keys.Key[2];
+        keyset[0] = new Keys.PrivateKey(d, n);
+        keyset[1] = new Keys.PublicKey(e, n);
+        return keyset; 
     }
 
     public byte[] sign(byte[] message) {
-       /* h = hash(m)
-       sig = h^(sk.d) mod sk.n
-        return sig; 
-        */
+        BigInteger h = new BigInteger(Utils.sha256(message));
+        return (h.modPow(privateKey.d, privateKey.n)).toByteArray();
+   
     }
 
     public static boolean verify(Keys.PublicKey pk, byte[] message, byte[] signature) {
-       /* h = hash(m)
-       
+        BigInteger h = new BigInteger(Utils.sha256(message));
+        BigInteger sig = new BigInteger(signature);
+        BigInteger se = sig.modPow(pk.e,pk.n);
+        BigInteger hmod = h.mod(pk.n);
+        return se.compareTo(hmod) == 0;
     }
 
 }

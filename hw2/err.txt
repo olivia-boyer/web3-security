@@ -1,0 +1,2 @@
+Exception in thread "main" java.lang.NullPointerException: Cannot invoke "java.util.List.get(int)" because "<local4>" is null
+	at testing.main(testing.java:18)
