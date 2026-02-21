@@ -37,7 +37,7 @@ class HashPointer {
             }
             input = Utils.concat(input, cur.getTimestamp().getBytes());
             if (prev != null) {
-                input = Utils.concat(input, prev.getHashPointer().getHash().getBytes());
+                input = Utils.concat(input, prev.getHashPointer().calculateHash().getBytes());
             }
 
             byte[] hashBytes = digest.digest(input);

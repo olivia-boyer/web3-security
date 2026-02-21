@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,8 +10,19 @@ class Block {
     private HashPointer hp; //hash pointer to previous block
     private MerkleTree tree;
 
-    public Block(List<Transaction> transactions, Block previousBlock) {
-        this.transactions = transactions;
+    public Block(List<Transaction> newtransactions, Block previousBlock) {
+        if (newtransactions != null) {
+        this.transactions = new ArrayList<Transaction>(newtransactions);
+       // System.out.println(this.transactions);
+        }
+        if ((this.transactions != null) && (this.transactions.size() != 0)) {
+        List<byte[]> txhashes = new ArrayList<byte[]>();
+        for (int i = 0; i < transactions.size(); i++){
+     
+            txhashes.add(transactions.get(i).getHash());
+        }
+        this.tree = new MerkleTree(txhashes);
+    }
         this.timestamp = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         this.hp = new HashPointer(this, previousBlock);
         //create merkle tree?

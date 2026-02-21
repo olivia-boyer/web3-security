@@ -13,6 +13,7 @@ public class UTXOPool {
 
     public void addUTXO(byte[] txHash, int outIndex, Transaction.Output output) {
         Transaction.Input key = new Transaction.Input(txHash, outIndex);
+       // System.out.println(txHash + " " + outIndex);
         pool.putIfAbsent(key, output);
         //txhash is input hash, and outIndex is self explanatory
         //can have same txHash but not same txHash and outPut

@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class testing {
    public static void main(String[] args) {
-    int num = 10;
+    int num = 1;
     List<byte[]> dets = new ArrayList<byte[]>(num);
     for (int i = 0; i < num; i++){
         byte[] toAdd = new byte[1];

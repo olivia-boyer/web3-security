@@ -25,6 +25,11 @@ public class Transaction {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(this.serialize());
+    }
+
 
         public byte[] serialize() {
             byte[] bytex = new byte[4];
@@ -68,6 +73,13 @@ public class Transaction {
 
     public Transaction() {}
 
+    public List<Output> geOutputs() {
+        return this.outputs;
+    }
+
+    public List<Input> getInputs() {
+        return this.inputs;
+    }
 
     public void addInput(byte[] prevTxHash, int prevOutIndex) {
         Input newinput = new Input(prevTxHash, prevOutIndex);

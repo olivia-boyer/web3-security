@@ -16,13 +16,13 @@ import java.util.*;
  */
 public class CentralCoin {
 
-    private final Wallet    theMint;
+    private final Wallet theMint;
     private final Blockchain blockchain;
-    private final UTXOPool  utxoPool;
+    private final UTXOPool utxoPool;
     private final List<Transaction> pendingTxs;
 
-    public CentralCoin()  {
-        theMint = new Wallet(2048);    
+    public CentralCoin() {
+        theMint = new Wallet(2048);
         blockchain = new Blockchain();
         utxoPool = new UTXOPool();
         pendingTxs = new ArrayList<>();
@@ -32,32 +32,69 @@ public class CentralCoin {
         Transaction minting = new Transaction();
         minting.addOutput(amount, recipient);
         minting.computeHash();
+        pendingTxs.add(minting);
         return minting;
     }
 
-    
     public boolean processTransaction(Transaction tx) throws Exception {
 
-        //verify transactions against utxo pool + pending transactions
-        //plus if transactio itself makes sense math wise
-    
-        return false; 
+        List<Transaction.Input> inputs = tx.getInputs();
+        int size = inputs.size();
+        for (int i = 0; i < size; i++) {
+          //  System.out.println(inputs.get(i).prevTxHash + " " + inputs.get(i).prevOutIndex);
+            if (utxoPool.contains(inputs.get(i).prevTxHash, inputs.get(i).prevOutIndex)) {
+            } else {
+                return false;
+            }
+        }
+
+        // verify transactions against utxo pool + pending transactions
+        // plus if transactio itself makes sense math wise
+
+                pendingTxs.add(tx);
+                return true;
     }
 
-    
-    public Block mineBlock()  {
-        //verify block
-        //add block to blockchain
-        //rebuild utxo pool after mining by updating used inputs and new outputs
-        return null;
-        
+    public Block mineBlock() {
+        // verify block
+
+        // add block to blockchain
+        blockchain.append(pendingTxs);
+       // System.out.println(pendingTxs.get(0));
+        pendingTxs.clear();
+        // rebuild utxo pool after mining by updating used inputs and new outputs
+        rebuildUTXOPool();
+        return blockchain.getHead();
+
     }
 
     public void rebuildUTXOPool() {
-        //update utxo pool after block is mined
-        
+        Block lastBlock = blockchain.getHead();
+        List<Transaction> newtx = lastBlock.getTransactions();
+       // System.out.println("size: " + newtx.size());
+        for (int i = 0; i < newtx.size(); i++) {
+            if (newtx.get(i).getInputs() != null) {
+            for (int j = 0; j < newtx.get(i).getInputs().size(); j++) {
+                Transaction.Input cur = newtx.get(i).getInputs().get(j);
+                utxoPool.removeUTXO(cur.prevTxHash, cur.prevOutIndex);
+            }
+        }
+        }
+
+        for (int i = 0; i < newtx.size(); i++) {
+            for (int j = 0; j < newtx.get(i).geOutputs().size(); j++) {
+                utxoPool.addUTXO(newtx.get(i).getHash(), j, newtx.get(i).geOutputs().get(j));
+            }
+        }
+        // update utxo pool after block is mined
+
     }
 
-    public Blockchain getBlockchain() { return blockchain; }
-    public UTXOPool getUTXOPool() { return utxoPool; }
+    public Blockchain getBlockchain() {
+        return blockchain;
+    }
+
+    public UTXOPool getUTXOPool() {
+        return utxoPool;
+    }
 }

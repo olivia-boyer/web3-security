@@ -51,7 +51,7 @@ public class MerkleTree {
             //System.out.println("making node...");
             return retval;
         } else if (start == end) {
-        System.out.println("strategy failed");
+      //  System.out.println("strategy failed");
         return null;
         }else {
             int mid = ((end - start) / 2) + start;
@@ -89,6 +89,7 @@ public class MerkleTree {
         int start = 0;
         int idx = leafHashes.indexOf(txHash);
         if (idx == -1) {
+          //  System.out.println("missing");
             return null;
         }
         List<byte[]> proof = new ArrayList<byte[]>();
