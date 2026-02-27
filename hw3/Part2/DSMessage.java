@@ -39,6 +39,7 @@ public class DSMessage {
     public DSMessage addSig(Signature sig) {
         DSMessage copy = new DSMessage(this.value, this.signatures);
         copy.signatures.add(sig);
+        //this.signatures.add(sig);
         return copy;
     }
 }
