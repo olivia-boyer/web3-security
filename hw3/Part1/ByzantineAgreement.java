@@ -21,6 +21,8 @@ public class ByzantineAgreement {
         for (int i = 0; i < parties.size(); i++) {
             if (!parties.get(i).isLeader && parties.get(i).isHonest) {
                 if (parties.get(i).getOutput() != v) {
+                    System.out.println("Party " + i + "is not valid");
+                    
                     return false;
                 }
             }
@@ -42,6 +44,7 @@ public class ByzantineAgreement {
                     setoutput = true;
                 } else {
                     if (parties.get(i).getOutput() != output) {
+                        System.out.println("Party " + i + "is not in agreement");
                         return false;
                     }
                 }
@@ -68,7 +71,7 @@ public class ByzantineAgreement {
             System.err.println("Error: General not found.");
             return false;
         }
-        Message toSend = leader.sign(17);
+        Message toSend = leader.sign(1);
         //round 1
         for (int i = 0; i < parties.size(); i++) {
             if (!parties.get(i).isLeader) {
@@ -97,9 +100,8 @@ public class ByzantineAgreement {
 
         //decision time
         for (int i = 0; i < parties.size(); i++) {
-            if (!parties.get(i).isLeader) {
                 parties.get(i).decide();
-            }
+            
         }
         if (agreement(parties) && validity(toSend.value, parties)) {
             return true;
@@ -122,7 +124,7 @@ public class ByzantineAgreement {
         };
 
         PartyList.add(new Party(true, honestGeneral));
-        PKI.put(0, PartyList.get(0).getPublicKey());
+        PKI.put(1, PartyList.get(0).getPublicKey());
         for (int i = 1; i < numParties; i++) {
             Party newparty;
             if (i < numTraitors) {
@@ -131,7 +133,7 @@ public class ByzantineAgreement {
                newparty = new Party(false, true);
             }
             PartyList.add(newparty);
-            PKI.put(i, newparty.getPublicKey());
+            PKI.put(i+1, newparty.getPublicKey());
         }
         boolean success = protocol(PartyList, PKI);
         System.out.println(success);

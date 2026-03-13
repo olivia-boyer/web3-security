@@ -111,6 +111,7 @@ public class MerkleTree {
         return proof;
     }
 
+    //TODO: fix issue here. Could also be with building proof. idk.
     /**
      * Verifies that txHash is in a tree with the given rootHash,
      * using the provided proof (list of sibling hashes).

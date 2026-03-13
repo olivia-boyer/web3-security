@@ -1,3 +1,43 @@
+Copy of tables here for easy reading:
+
+Part 1:
+
+|     | dishonest parties |  valildity?  | agreement?  | 
+| --- | ----------------- | ------------ |------------ |
+| n,t |                   |              |             |
+| 10,2 | P2,P3            |   T          |   T         |
+| 10,2 |  P1,P2           |   T          |   F         |
+| 3,1  | P2               |   T          |   T         |
+| 100,3| P1,P2,P3         |   T          |   F         |
+| 6,2  | P2,P3            |   T          |   T         |
+
+
+If you find cases where validity and agreement do not hold, explain in words the situation that occured. 
+
+10,2; P1, P2: Validity is true trivially as the general is dishonest. Agreement does not hold in the situation where the general 
+sends some parties two messages in round one (done randomly with 5% chance for each party). Since the receiving party is only
+expecting one message from the general, it only shares the first one in round two. Thus, all other nodes receive the same message, 
+but the one (or more) sent the second message have conflicting information and return the default. Non-general nodes are unable to
+affect validity or agreement because of signature protection.
+100,3: same situation.
+
+Part 2:
+
+|     | dishonest parties |  valildity?  | agreement?  | 
+| --- | ----------------- | ------------ |------------ |
+| n,t |                   |              |             |
+| 20,4|  P1,P2,P3,P4      |      T       |   T         |
+| 10,1|  P2               |      T       |   T         |
+| 6,4 | P2,P3,P4,P5       |      T       |   T         |
+
+If you find cases where validity and agreement do not hold, explain in words the situation that occured. 
+
+No cases where didn't hold
+
+Time taken: 6 hours-ish(?) I'm bad at keeping track.
+
+
+
 # Protocols for Byzantine Agreement
 
 Deadline: Friday 2/27/26 at 11:59pm
@@ -54,10 +94,20 @@ Fill out the following table with a row for each value of n and t you tested. In
 |     | dishonest parties |  valildity?  | agreement?  | 
 | --- | ----------------- | ------------ |------------ |
 | n,t |                   |              |             |
-
+| 10,2 | P2,P3            |   T          |   T         |
+| 10,2 |  P1,P2           |   T          |   F         |
+| 3,1  | P2               |   T          |   T         |
+| 100,3| P1,P2,P3         |   T          |   F         |
+| 6,2  | P2,P3            |   T          |   T         |
 
 If you find cases where validity and agreement do not hold, explain in words the situation that occured. 
 
+10,2; P1, P2: Validity is true trivially as the general is dishonest. Agreement does not hold in the situation where the general 
+sends some parties two messages in round one (done randomly with 5% chance for each party). Since the receiving party is only
+expecting one message from the general, it only shares the first one in round two. Thus, all other nodes receive the same message, 
+but the one (or more) sent the second message have conflicting information and return the default. Non-general nodes are unable to
+affect validity or agreement because of signature protection.
+100,3: same situation.
 
 ## Part 2: Dolev-Strong
 In this part, you will implement the Dolev-Strong protocol.
@@ -113,12 +163,13 @@ In the main, test your protocol under various settings of n and t as in Part 1. 
 |     | dishonest parties |  valildity?  | agreement?  | 
 | --- | ----------------- | ------------ |------------ |
 | n,t |                   |              |             |
-
-
+| 20,4|  P1,P2,P3,P4      |      T       |   T         |
+| 10,1|  P2               |      T       |   T         |
+| 6,4 | P2,P3,P4,P5       |      T       |   T         |
 
 If you find cases where validity and agreement do not hold, explain in words the situation that occured. 
 
-
+No cases where didn't hold
 
 ## What to submit
 1. README with table and descriptions of non BG situations.

@@ -3,7 +3,7 @@ require("dotenv").config();
 
 
 // TODO: Your name as you want it registered on the contract (hashed)
-const YOUR_NAME = "";
+const YOUR_NAME = "web3_nft_ob";
 
 // Contract details
 const CONTRACT_ADDRESS = "0x229e039b1605bD1C01247bD5ee5714ba5F0Cc3a9";

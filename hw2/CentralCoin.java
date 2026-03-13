@@ -33,11 +33,35 @@ public class CentralCoin {
         minting.addOutput(amount, recipient);
         minting.computeHash();
         pendingTxs.add(minting);
+        utxoPool.addUTXO(minting.getHash(), 0, minting.geOutputs().get(0));
         return minting;
     }
 
     public boolean processTransaction(Transaction tx) throws Exception {
+        //check signatures
+        //check amounts
 
+
+        double totalInput = 0;
+        for (int i = 0; i < tx.getInputs().size(); i++){
+        Transaction.Output toCheck = utxoPool.getOutput(tx.getInputs().get(i).prevTxHash, tx.getInputs().get(i).prevOutIndex);
+        if (toCheck == null) {
+            return false;
+        }
+        totalInput += toCheck.value;
+        if (!Wallet.verify(toCheck.recipient, tx.getInputDataToSign(i), tx.getInputs().get(i).signature)) {
+            return false;
+        }
+    }
+        double totalOutput = 0;
+        for (int i = 0; i < tx.geOutputs().size(); i++) {
+            totalOutput += tx.geOutputs().get(i).value;
+        } 
+
+        if (totalInput < totalOutput) {
+            return false;
+        }
+       /* 
         List<Transaction.Input> inputs = tx.getInputs();
         int size = inputs.size();
         for (int i = 0; i < size; i++) {
@@ -47,6 +71,7 @@ public class CentralCoin {
                 return false;
             }
         }
+        */
 
         // verify transactions against utxo pool + pending transactions
         // plus if transactio itself makes sense math wise

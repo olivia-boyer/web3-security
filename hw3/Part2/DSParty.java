@@ -47,19 +47,17 @@ public class DSParty {
 
     public void send(DSParty receiver, DSMessage msg, int roundNum, Map<Integer, Keys.PublicKey> PKI) {
         if (!isHonest) { // add more advanced one later
-            // int doublesend = rand.nextInt() % 20;
             int fakeval = ~msg.value;
             DSMessage fakemsg = new DSMessage(fakeval);
-            this.sign(fakemsg);
-            receiver.receive(fakemsg, roundNum, PKI);
+            receiver.receive(msg.addSig(sign(fakemsg)), roundNum, PKI);
             return;
         }
         receiver.receive(msg.addSig(sign(msg)), roundNum, PKI);
     }
 
     public void receive(DSMessage msg, int roundNum, Map<Integer, Keys.PublicKey> PKI) {
-        //.out.println("receiving");
-        //System.out.println(msg.chainLength());
+      //  System.out.println("receiving");
+       // System.out.println(msg.chainLength());
         if (msg.chainLength() == roundNum) {
            // System.out.println("chain Length passes");
 
@@ -79,7 +77,7 @@ public class DSParty {
                     }
                     toSign = Utils.concat(toSign, sigs.get(i).bytes);
                 }
-               // System.out.print("adding message");
+               // System.out.println("adding message");
                 msgs.add(msg);
             }
         }
@@ -88,12 +86,13 @@ public class DSParty {
 
     public void relay(List<DSParty> allParties, int roundNum, Map<Integer, Keys.PublicKey> PKI) {
         if (isHonest) {
-            for (int i = 0; i < msgs.size(); i++) {
+            int i = msgs.size() - 1;
                // sign(msgs.get(i));
+               if (i >= 0) {
                 for (int j = 0; j < allParties.size(); j++) {
                     send(allParties.get(j), msgs.get(i), roundNum, PKI);
-                }
             }
+        }
             // TODO: for each message in msgs, add your signature and send to all
         } else {
             // TODO: implement dishonest relay behavior
@@ -103,18 +102,26 @@ public class DSParty {
     public void decide() {
 
         if (isHonest) {
+            if (msgs.isEmpty()) {
+                this.output = DolevStrong.DEFAULT;
+                return;
+            }
             int val = msgs.get(0).value;
             for (int i = 0; i < msgs.size(); i++) {
                 if (val != msgs.get(i).value) {
-                    this.output = 0; // default value
+                    this.output = DolevStrong.DEFAULT; // default value
                     return;
                 }
             }
             this.output = val;
             return;
         } else {
+            if (!msgs.isEmpty()){
             int val = msgs.get(0).value;
             output = ~val;
+            } else {
+                output = 0;
+            }
             return;
         }
     }

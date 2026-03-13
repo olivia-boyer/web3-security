@@ -11,8 +11,8 @@ public class Party {
     private Random rand = new Random();
 
     private final Wallet  wallet;      
-    private  final List<Message> msgs;  // V_i
-    private Integer output;            // set during decision phase (decide)
+    public  final List<Message> msgs;  // V_i
+    public Integer output;            // set during decision phase (decide)
 
     public Party(boolean isLeader, boolean isHonest) {
         this.isLeader = isLeader;
@@ -58,7 +58,7 @@ public class Party {
     
     public void receive(Message msg, Map<Integer, Keys.PublicKey> PKI) {
         byte[] msgval = Utils.int2byte(msg.value);
-        if (Wallet.verify(PKI.get(0), msgval, msg.sig)) {
+        if (Wallet.verify(PKI.get(1), msgval, msg.sig)) {
             msgs.add(msg);
         }
         return;
@@ -67,10 +67,14 @@ public class Party {
 
     public void decide() {
         if (isHonest) {
+            if (msgs.isEmpty()) {
+               output = ByzantineAgreement.DEFAULT;
+                return;
+            }
             int val = msgs.get(0).value;
             for (int i = 0; i < msgs.size(); i++) {
                 if (val != msgs.get(i).value) {
-                    this.output = 0; //default value
+                    output = ByzantineAgreement.DEFAULT; //default value
                     return;
                 }
             }

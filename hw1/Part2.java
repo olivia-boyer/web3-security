@@ -7,7 +7,13 @@ public class Part2 {
     // -----------------------------
     // Part 2: Commitments
     // -----------------------------
-    /** TODO: return (c, r) where r is random 32 bytes and c = SHA256(r || message). */
+    /** 
+     * @param message the message to commit
+     * @param hashFunction the hash function to use
+     * 
+     * @return a commitment type with hashed message and salt
+     */
+
     public static Commitment commit(byte[] message, int hashFunction) throws NoSuchAlgorithmException {
         
         byte[] r = Utils.genSalt();
@@ -15,11 +21,16 @@ public class Part2 {
         byte[] c = Part1.computeDigest(concated, hashFunction);
         Commitment retVal = new Commitment(c,r);
         return retVal;
-        // TODO 
-        //throw new UnsupportedOperationException("TODO");
+    
     }
 
-    /** TODO: return true iff c.c equals SHA256(c.r || message). */
+    /** 
+     * @param c the commitment to check against
+     * @param message the message to be compared to the commitment
+     * @param hashFunction the hash function to use
+     * 
+     * @return whether the hash of message matches the commitment
+     */
     public static boolean verify(Commitment c, byte[] message, int hashFunction) throws NoSuchAlgorithmException {
         byte[] rVal = c.getSalt();
         byte[] concated = Utils.concat(rVal, message);

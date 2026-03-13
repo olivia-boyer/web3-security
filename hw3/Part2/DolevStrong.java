@@ -63,7 +63,7 @@ public class DolevStrong {
             System.err.println("Error: General not found.");
             return false;
         }
-        DSMessage toSend = new DSMessage(17);
+        DSMessage toSend = new DSMessage(1);
         leader.sign(toSend);
         //round 1
         //System.out.println("round 1 begins");
