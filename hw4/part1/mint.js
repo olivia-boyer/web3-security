@@ -1,4 +1,4 @@
-const { ethers } = require("ethers");
+const { ethers, JsonRpcProvider, Wallet } = require("ethers");
 require("dotenv").config();
 
 
@@ -11,10 +11,10 @@ const ABI = [];
 
 async function main() {
   // TODO: Connect to Sepolia using your RPC URL from .env
-  const provider = ;
+  const provider = new JsonRpcProvider(process.env.SEPOLIA_RPC_URL);
 
   // TODO: Load your wallet from your private key in .env
-  const wallet = ;
+  const wallet = new Wallet(process.env.PRIVATE_KEY);
 
   // Check your balance before doing anything
   const balance = await provider.getBalance(wallet.address);
